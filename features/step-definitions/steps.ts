@@ -44,10 +44,10 @@ When(/^Enter the number of passengers$/, async () => {
 });
 
 When(/^Click on the search button$/, async () => {
-  await pages.booking.clickSearch();
+  await pages.booking.clickSearchButton();
 });
 
 Then(/^I should see the booking page$/, async () => {
-  await pages.booking.flightSearch();
+  await pages.booking.expectSearchResultShouldBeDisplayed();
   browser.pause(30000);
 });

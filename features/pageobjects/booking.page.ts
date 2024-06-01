@@ -1,10 +1,9 @@
 import { $ } from "@wdio/globals";
-import Page from "./page.js";
 import LOCATOR from "../locators/booking-page.locator.js";
 
-class BookingPage extends Page {
+class BookingPage {
   public open() {
-    return super.open("https://www.bestprice.vn/");
+    return browser.url("https://www.bestprice.vn/");
   }
 
   public async selectDeparture(searchText: string) {
@@ -52,11 +51,11 @@ class BookingPage extends Page {
     await $(LOCATOR.CHILDREN_PLUS_BUTTON).click();
   }
 
-  async clickSearch() {
+  async clickSearchButton() {
     await $(LOCATOR.SEARCH_BUTTON).click();
   }
 
-  async flightSearch() {
+  async expectSearchResultShouldBeDisplayed() {
     expect(await $(LOCATOR.FLIGHT).isDisplayed()).toBe(true);
   }
 }
