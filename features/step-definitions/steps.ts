@@ -1,23 +1,53 @@
-import { Given, When, Then } from '@wdio/cucumber-framework';
-import { expect, $ } from '@wdio/globals'
+import { Given, When, Then } from "@wdio/cucumber-framework";
 
-import LoginPage from '../pageobjects/login.page.js';
-import SecurePage from '../pageobjects/secure.page.js';
+import BookingPage from "../pageobjects/booking.page.js";
 
 const pages = {
-    login: LoginPage
-}
+  booking: BookingPage,
+};
 
 Given(/^I am on the (\w+) page$/, async (page) => {
-    await pages[page].open()
+  await pages[page].open();
 });
 
-When(/^I login with (\w+) and (.+)$/, async (username, password) => {
-    await LoginPage.login(username, password)
+When(/^Enter (\w+) as the departure city$/, async (searchText: string) => {
+  await pages.booking.selectDeparture(searchText);
 });
 
-Then(/^I should see a flash message saying (.*)$/, async (message) => {
-    await expect(SecurePage.flashAlert).toBeExisting();
-    await expect(SecurePage.flashAlert).toHaveTextContaining(message);
+When(
+  /^Enter ([\w\s]+) as the destination city$/,
+  async (searchText: string) => {
+    await pages.booking.selectDestination(searchText);
+  }
+);
+
+When(/^Select departure date as (.+)$/, async (date: string) => {
+  const [year, month, day] = date.split("-");
+  await pages.booking.selectDepartureDate(
+    Number(year),
+    Number(month),
+    Number(day)
+  );
 });
 
+When(/^Select return date as (.+)$/, async (date: string) => {
+  const [year, month, day] = date.split("-");
+  await pages.booking.selectDestinationDate(
+    Number(year),
+    Number(month),
+    Number(day)
+  );
+});
+
+When(/^Enter the number of passengers$/, async () => {
+  await pages.booking.selectPassengers();
+});
+
+When(/^Click on the search button$/, async () => {
+  await pages.booking.clickSearch();
+});
+
+Then(/^I should see the booking page$/, async () => {
+  await pages.booking.flightSearch();
+  browser.pause(30000);
+});

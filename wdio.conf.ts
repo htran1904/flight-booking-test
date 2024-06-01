@@ -59,7 +59,13 @@ export const config: Options.Testrunner = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+            prefs: {
+                'profile.managed_default_content_settings.popups' : 2,
+                'profile.managed_default_content_settings.notifications' : 2,
+            }
+        }
     }],
 
     //
